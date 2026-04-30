@@ -406,7 +406,7 @@
             <!-- Текст под кнопкой -->
     <div style="font-size: 13px; color: #666; margin-top: 15px;">
         если не работает Telegram, то 
-        <a href="https://egotest.ru/master-class" style="color: #666; text-decoration: underline;">переходи по этой ссылке</a>
+        <a id="fallback-link" href="https://egotest.ru/master-class" style="color: #666; text-decoration: underline;">переходи по этой ссылке</a>
     </div>
 </div>
         
@@ -449,6 +449,26 @@
     5: "victim", 6: "complicator", 7: "radicalist", 8: "good_boy",
     9: "skeptic", 10: "artist", 11: "controller", 12: "rebel",
     13: "rescuer", 14: "fly_away", 15: "judge", 16: "invisible", 17: "cynic"
+};
+
+    const FALLBACK_LINKS = {
+    1:  "https://egotest.ru/master-class",  // Перфекционист
+    2:  "https://egotest.ru/master-class",  // Трудоголик
+    3:  "https://egotest.ru/master-class",  // Прокрастинатор
+    4:  "https://egotest.ru/master-class",  // Нарцисс
+    5:  "https://egotest.ru/master-class",  // Жертва
+    6:  "https://egotest.ru/master-class",  // Усложнятор
+    7:  "https://egotest.ru/master-class",  // Радикалист
+    8:  "https://egotest.ru/master-class",  // Хороший Мальчик/Девочка
+    9:  "https://egotest.ru/master-class",  // Скептик
+    10: "https://egotest.ru/master-class",  // Непризнанный Художник
+    11: "https://egotest.ru/master-class",  // Контролер
+    12: "https://egotest.ru/master-class",  // Бунтарь
+    13: "https://egotest.ru/master-class",  // Спасатель
+    14: "https://egotest.ru/master-class",  // Отлетевший
+    15: "https://egotest.ru/master-class",  // Судья (Критик)
+    16: "https://egotest.ru/master-class",  // Невидимка
+    17: "https://egotest.ru/master-class",  // Циник
 };
 
     const SHORT_DESCRIPTIONS = {
@@ -702,11 +722,17 @@
         
         document.getElementById('winner-name').innerText = winner.name;
 
-        // Прошиваем кнопку Telegram актуальным параметром
+      // Прошиваем кнопку Telegram актуальным параметром
 const startParam = BOT_KEYS[winner.id] || 'egotest';
 const ctaBtn = document.querySelector('.btn-cta');
 if (ctaBtn) {
     ctaBtn.href = `https://t.me/aleksskorolev_bot?start=${startParam}`;
+}
+
+// Меняем резервную ссылку под кнопкой
+const fallbackLink = document.getElementById('fallback-link');
+if (fallbackLink && FALLBACK_LINKS[winner.id]) {
+    fallbackLink.href = FALLBACK_LINKS[winner.id];
 }
         
         // Подгружаем краткое описание из локального объекта
