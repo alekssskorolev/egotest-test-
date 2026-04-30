@@ -681,9 +681,15 @@
     }
 
     function finishTest() {
-        document.getElementById('quiz-page').classList.add('hidden');
-        document.getElementById('results-page').classList.remove('hidden');
-        window.scrollTo(0,0);
+    document.getElementById('quiz-page').classList.add('hidden');
+    document.getElementById('results-page').classList.remove('hidden');
+    window.scrollTo(0,0);
+
+    // Добавляем сохранение в URL
+    // Важно: убедись, что переменная с ID типа (например, topType) доступна здесь
+    const url = new URL(window.location);
+    url.searchParams.set('result', topType.id); // Записываем ID типа в адресную строку
+    window.history.pushState({}, '', url); 
 
         const resultsArray = Object.keys(scores).map(typeId => {
             const id = parseInt(typeId);
@@ -833,6 +839,21 @@ if (ctaBtn) {
         
         block.classList.toggle('visible');
     }
+
+    window.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const savedResult = urlParams.get('result');
+
+    // Если в ссылке есть результат, сразу показываем его
+    if (savedResult && typeof toggleLongText === 'function') {
+        document.getElementById('quiz-page').classList.add('hidden');
+        document.getElementById('results-page').classList.remove('hidden');
+        
+        // Вставляем данные в блоки (вызываем твою функцию загрузки текста)
+        // Нам нужно передать ей сохраненный ID типа
+        renderSavedResult(savedResult); 
+    }
+});
 
 </script>
 </body>
